@@ -18,7 +18,7 @@ public class RedactorModel {
 
 
 
-    String currentUser;
+    private String currentUser;
 
     public String getCurrentUser() {
         return currentUser;

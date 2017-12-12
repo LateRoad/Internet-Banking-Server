@@ -25,17 +25,21 @@ public class MainController {
     @FXML
     public Text dbStatus;
 
+    private Server server = null;
 
     @FXML
     public void startServer(ActionEvent actionEvent) {
-        Server.getInstance().start();
+        server = new Server();
+        server.start();
         buttonStart.setDisable(true);
         buttonStop.setDisable(false);
+        logs.insertText(0, "Server started.\n");
     }
 
     @FXML
     public void stopServer(ActionEvent actionEvent) {
-        Server.getInstance().interrupt();
+        logs.insertText(0, "Server stopped.\n");
+        server.interrupt();
         buttonStart.setDisable(false);
         buttonStop.setDisable(true);
     }

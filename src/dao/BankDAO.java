@@ -17,16 +17,17 @@ public class BankDAO {
             "WHERE `card`.`login` = ?;";
     private static final String SELECT_CARD = "SELECT * FROM `bank_mysql`.`card` " +
             "WHERE `card`.`number` = ?;";
-    private static final String INSERT_USER = "INSERT INTO `bank_mysql`.`user` values ('?', '?', '?');";
-    private static final String INSERT_USER_INFO = "INSERT INTO `bank_mysql`.`user_info` values ('?', '?', '?', '?');";
+    private static final String INSERT_USER = "INSERT INTO `bank_mysql`.`user` values (?, ?, ?);";
+    private static final String INSERT_CARD = "INSERT INTO `bank_mysql`.`card` (login, number, password, secret_number, end_date, money) values ( ?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_USER_INFO = "INSERT INTO `bank_mysql`.`user_info` values (?, ?, ?, ?);";
 
     private static final String SELECT_USER_DATA_BY_LOGIN_AND_PASSWORD = "SELECT * FROM `bank_mysql`.`user` " +
             "STRAIGHT_JOIN `bank_mysql`.`user_info` ON `user`.`login` = `user_info`.`login` " +
             "WHERE `user`.`login` = ? AND `user`.`password` = ?;";
 
     private static final String UPDATE_USER = "UPDATE `bank_mysql`.`user` AS u " +
-            "SET u.`login` = '?', u.`password` = '?', u.`permission` = '?' " +
-            "WHERE u.`login` = '?' AND u.`password` = '?'";
+            "SET u.`login` = ?, u.`password` = ?, u.`permission` = ? " +
+            "WHERE u.`login` = ? AND u.`password` =?";
     private static final String UPDATE_USER_INFO = "UPDATE `bank_mysql`.`user` AS u " +
             "SET u.`login` = '?', u.`password` = '?', u.`permission` = '?' " +
             "WHERE u.`login` = '?' AND u.`password` = '?'";
@@ -34,26 +35,26 @@ public class BankDAO {
             "SET c.`money` = ? " +
             "WHERE c.`number` = ?;";
 
-    public  BankDAO() throws SQLException {
+    public BankDAO() throws SQLException {
         if (databaseConnection == null) {
             databaseConnection = BankDAOConnection.getInstance();
         }
     }
 
-    public static Card selectCard(String number) throws SQLException{
+    public static Card selectCard(String number) throws SQLException {
         ArrayList<Card> cards = new ArrayList<>();
         PreparedStatement downloadUserQuery = BankDAOConnection.getConnection().prepareStatement(SELECT_CARD);
         downloadUserQuery.setString(1, number);
         ResultSet card = downloadUserQuery.executeQuery();
         card.next();
-            return new Card(
-                    card.getString("id"),
-                    card.getString("login"),
-                    card.getString("number"),
-                    card.getString("password"),
-                    card.getString("secret_number"),
-                    card.getString("end_date"),
-                    card.getString("money"));
+        return new Card(
+                card.getString("id"),
+                card.getString("login"),
+                card.getString("number"),
+                card.getString("password"),
+                card.getString("secret_number"),
+                card.getString("end_date"),
+                card.getString("money"));
     }
 
     public static ArrayList<User> downloadUsers() throws SQLException {
@@ -90,7 +91,7 @@ public class BankDAO {
         return cards;
     }
 
-    public static void insertUserIntoDatabase(User newUser) throws SQLException {
+    public static void insertUser(User newUser) throws SQLException {
         PreparedStatement insertUserQuery = BankDAOConnection.getConnection().prepareStatement(INSERT_USER);
         insertUserQuery.setString(1, newUser.getLogin());
         insertUserQuery.setString(2, newUser.getPassword());
@@ -103,6 +104,17 @@ public class BankDAO {
         insertUserInfoQuery.setString(3, newUser.getSurname());
         insertUserInfoQuery.setString(4, newUser.getLastname());
         insertUserInfoQuery.executeUpdate();
+    }
+
+    public static void insertCard(Card newCard) throws SQLException {
+        PreparedStatement insertCardQuery = BankDAOConnection.getConnection().prepareStatement(INSERT_CARD);
+        insertCardQuery.setString(1, newCard.getOwner());
+        insertCardQuery.setString(2, newCard.getNumber());
+        insertCardQuery.setString(3, newCard.getPassword());
+        insertCardQuery.setString(4, newCard.getSecretNumber());
+        insertCardQuery.setString(5, newCard.getEndDate());
+        insertCardQuery.setString(6, newCard.getMoney());
+        insertCardQuery.executeUpdate();
     }
 
 

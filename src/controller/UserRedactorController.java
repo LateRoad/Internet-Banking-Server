@@ -1,5 +1,6 @@
 package controller;
 
+import dao.BankDAO;
 import entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import model.RedactorModel;
 import switcher.SceneSwitcher;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class UserRedactorController implements Initializable {
@@ -61,7 +63,19 @@ public class UserRedactorController implements Initializable {
     }
 
     public void addUser(ActionEvent actionEvent) {
-
+        User newUser = new User(
+                login.getText(),
+                password.getText(),
+                "user",
+                name.getText(),
+                surname.getText(),
+                lastname.getText()
+                );
+        try {
+            BankDAO.insertUser(newUser);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void showMain(ActionEvent actionEvent) {

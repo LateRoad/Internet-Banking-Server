@@ -7,15 +7,10 @@ import java.util.ArrayList;
 
 public class Server extends Thread {
 
-    private static final Server instance = new Server();
 
-    private Server() {
+    public Server() {
         threads = new ArrayList<>();
         serverActive = true;
-    }
-
-    public static Server getInstance() {
-        return instance;
     }
 
     private static ServerSocket bankServerSocket;
@@ -50,5 +45,6 @@ public class Server extends Thread {
         for (ServerThread thread : threads) {
             thread.interrupt();
         }
+        super.interrupt();
     }
 }

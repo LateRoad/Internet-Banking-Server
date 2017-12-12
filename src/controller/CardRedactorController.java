@@ -1,5 +1,6 @@
 package controller;
 
+import dao.BankDAO;
 import entity.Card;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,11 @@ import model.RedactorModel;
 import switcher.SceneSwitcher;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class CardRedactorController implements Initializable{
@@ -41,7 +47,28 @@ public class CardRedactorController implements Initializable{
     }
 
     public void addCard(ActionEvent actionEvent) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, 4); // to get previous year add -1
+        Date nextYear = cal.getTime();
 
+        DateFormat dateformat = new SimpleDateFormat("MM/yy");
+        Card newCard = new Card(
+                null,
+                model.getCurrentUser(),
+                cardNumber.getText(),
+                Integer.toString(getRandomLine()),
+                Integer.toString(getRandomLine()),
+                dateformat.format(nextYear).toString(),
+                "500");
+        try {
+            BankDAO.insertCard(newCard);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int getRandomLine() {
+        return (int) (Math.random() * 9999) + 1000;
     }
 
     @Override

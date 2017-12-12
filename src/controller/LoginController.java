@@ -1,5 +1,7 @@
 package controller;
 
+import entity.PermissionType;
+import entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +33,8 @@ public class LoginController {
     @FXML
     public void login(ActionEvent event) {
         try {
-            if (this.loginModel.isLogin(this.username.getText(), this.password.getText())) {
+            User currentUser = this.loginModel.getUserData(this.username.getText(), this.password.getText());
+            if (currentUser != null && currentUser.getPermission() == PermissionType.ADMIN) {
                 Stage userStage = new Stage();
                 FXMLLoader loader = new FXMLLoader();
                 Pane root = loader.load(getClass().getResource("../view/main.fxml").openStream());
