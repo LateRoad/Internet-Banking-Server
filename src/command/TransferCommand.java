@@ -13,7 +13,6 @@ public class TransferCommand implements ICommand{
 
     @Override
     public String execute(String context) {
-        System.out.println(context);
         try {
             StringBuilder answer = new StringBuilder("UPDATE%21");
             ArrayList<Card> cards = RedactorModel.getInstance().getCards();

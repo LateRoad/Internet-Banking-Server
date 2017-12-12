@@ -15,13 +15,13 @@ public class SignInCommand implements ICommand {
 
     @Override
     public String execute(String context) {
-        StringBuilder answer;
-        String[] data = context.split(" ");
         try {
+            StringBuilder answer = new StringBuilder("SIGNUP%21");
+            String[] data = context.split(" ");
             User newUser = BankDAO.getUserData(data[0], data[1]);
             ArrayList<Card> cards = BankDAO.downloadCards(newUser.getLogin());
             Gson gson = new Gson();
-            answer = new StringBuilder(gson.toJson(newUser));
+            answer = answer.append(gson.toJson(newUser));
             for (Card card : cards) {
                 answer.append("%20").append(gson.toJson(card));
             }

@@ -29,7 +29,8 @@ public class MainController {
 
     @FXML
     public void startServer(ActionEvent actionEvent) {
-        server = new Server();
+        server = Server.getInstance();
+        server.serverActive = true;
         server.start();
         buttonStart.setDisable(true);
         buttonStop.setDisable(false);
@@ -39,7 +40,8 @@ public class MainController {
     @FXML
     public void stopServer(ActionEvent actionEvent) {
         logs.insertText(0, "Server stopped.\n");
-        server.interrupt();
+        server.closeThreads();
+        server.serverActive = false;
         buttonStart.setDisable(false);
         buttonStop.setDisable(true);
     }

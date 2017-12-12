@@ -6,28 +6,34 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Server extends Thread {
+    private static Server instance = null;
 
-
-    public Server() {
-        threads = new ArrayList<>();
-        serverActive = true;
+    public static Server getInstance() {
+        if (instance == null) {
+            instance = new Server();
+            threads = new ArrayList<>();
+        }
+        return instance;
     }
 
     private static ServerSocket bankServerSocket;
-    private ArrayList<ServerThread> threads;
-    boolean serverActive;
+    private static ArrayList<ServerThread> threads;
+    public boolean serverActive = true;
+
+    private Server() {
+    }
 
     @Override
     public void run() {
         try {
             bankServerSocket = new ServerSocket(4244);
 
-            do {
+            while(serverActive) {
                 Socket client = bankServerSocket.accept();
                 ServerThread clientThread = new ServerThread(client);
                 threads.add(clientThread);
                 clientThread.start();
-            } while (serverActive);
+            }
         } catch (IOException e) {
         } finally {
             try {
@@ -36,15 +42,14 @@ public class Server extends Thread {
                 e.printStackTrace();
             }
         }
-        System.out.println("server dead");
     }
 
-    @Override
-    public void interrupt() {
+
+    public void closeThreads() {
+        instance = null;
         serverActive = false;
         for (ServerThread thread : threads) {
-            thread.interrupt();
+            thread.isAlive = false;
         }
-        super.interrupt();
     }
 }
