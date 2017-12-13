@@ -44,7 +44,6 @@ public class ServerThread extends Thread {
                 } else {
                     message = (String) serverReader.readObject();
                     message = HashMessage.getInstance().decode(message.getBytes(StandardCharsets.UTF_8), socketName);
-                    System.out.println(message);
                     if ("EXIT".equals(message)) {
                         break;
                     }

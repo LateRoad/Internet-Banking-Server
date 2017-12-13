@@ -10,9 +10,6 @@ import java.util.ArrayList;
 
 public class SignInCommand implements ICommand {
 
-    public SignInCommand() {
-    }
-
     @Override
     public String execute(String context) {
         try {

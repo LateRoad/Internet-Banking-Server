@@ -14,6 +14,7 @@ public class CommandMap {
         commandsMap = new HashMap<>();
         commandsMap.put("SIGN_IN", new SignInCommand());
         commandsMap.put("TRANSFER", new TransferCommand());
+        commandsMap.put("PAYMENT", new PaymentCommand());
     }
 
     public ICommand getCommandsMap(String key) {
