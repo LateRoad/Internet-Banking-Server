@@ -1,22 +1,21 @@
 package model;
 
-import dao.BankDAO;
-import entity.Card;
-import entity.User;
+import logic.dao.BankDAO;
+import logic.entity.Card;
+import logic.entity.User;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RedactorModel {
-    private static final RedactorModel instance = new RedactorModel();
-    private RedactorModel() {
+public class AppModel {
+    private static final AppModel instance = new AppModel();
+
+    private AppModel() {
     }
-    public static RedactorModel getInstance() {
+
+    public static AppModel getInstance() {
         return instance;
     }
-
-
-
 
     private String currentUser;
 
@@ -44,5 +43,9 @@ public class RedactorModel {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public User getUserData(String user, String pass) throws SQLException {
+        return BankDAO.getUserData(user, pass);
     }
 }

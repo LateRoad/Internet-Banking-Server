@@ -1,13 +1,13 @@
 package controller;
 
-import connection.Server;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import switcher.SceneSwitcher;
+import logic.connection.Server;
+import logic.switcher.SceneSwitcher;
 
 public class MainController {
     @FXML
@@ -46,6 +46,6 @@ public class MainController {
 
     @FXML
     public void showUserTable(ActionEvent actionEvent) {
-        SceneSwitcher.toScene(rootPane, "../view/userRedactor.fxml");
+        SceneSwitcher.toScene(rootPane, "/view/userRedactor.fxml");
     }
 }

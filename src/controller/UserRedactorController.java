@@ -1,7 +1,5 @@
 package controller;
 
-import dao.BankDAO;
-import entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,31 +8,46 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import model.RedactorModel;
-import switcher.SceneSwitcher;
+import logic.dao.BankDAO;
+import logic.entity.User;
+import logic.switcher.SceneSwitcher;
+import model.AppModel;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class UserRedactorController implements Initializable {
-    @FXML public TableView<User> tableViewUser;
-    @FXML public TableColumn<User, String> loginColumn;
-    @FXML public TableColumn<User, String> passwordColumn;
-    @FXML public TableColumn<User, String> nameColumn;
-    @FXML public TableColumn<User, String> surnameColumn;
-    @FXML public TableColumn<User, String> lastnameColumn;
+    @FXML
+    public TableView<User> tableViewUser;
+    @FXML
+    public TableColumn<User, String> loginColumn;
+    @FXML
+    public TableColumn<User, String> passwordColumn;
+    @FXML
+    public TableColumn<User, String> nameColumn;
+    @FXML
+    public TableColumn<User, String> surnameColumn;
+    @FXML
+    public TableColumn<User, String> lastnameColumn;
 
-    @FXML public AnchorPane rootPane;
-    @FXML public TextField login;
-    @FXML public TextField password;
-    @FXML public TextField name;
-    @FXML public TextField surname;
-    @FXML public TextField lastname;
+    @FXML
+    public AnchorPane rootPane;
+    @FXML
+    public TextField login;
+    @FXML
+    public TextField password;
+    @FXML
+    public TextField name;
+    @FXML
+    public TextField surname;
+    @FXML
+    public TextField lastname;
 
-    @FXML public Button buttonAddUser;
+    @FXML
+    public Button buttonAddUser;
 
-    private RedactorModel model = RedactorModel.getInstance();
+    private AppModel model = AppModel.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,7 +64,7 @@ public class UserRedactorController implements Initializable {
         MenuItem mi1 = new MenuItem("Карты клиента");
         mi1.setOnAction(event -> {
             model.setCurrentUser(tableViewUser.getSelectionModel().getSelectedItem().getLogin());
-            SceneSwitcher.toScene(rootPane, "../view/cardRedactor.fxml");
+            SceneSwitcher.toScene(rootPane, "/view/cardRedactor.fxml");
         });
         cm.getItems().add(mi1);
 
@@ -70,7 +83,7 @@ public class UserRedactorController implements Initializable {
                 name.getText(),
                 surname.getText(),
                 lastname.getText()
-                );
+        );
         try {
             BankDAO.insertUser(newUser);
         } catch (SQLException e) {
@@ -79,6 +92,6 @@ public class UserRedactorController implements Initializable {
     }
 
     public void showMain(ActionEvent actionEvent) {
-        SceneSwitcher.toScene(rootPane, "../view/main.fxml");
+        SceneSwitcher.toScene(rootPane, "/view/main.fxml");
     }
 }

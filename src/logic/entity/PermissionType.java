@@ -1,4 +1,4 @@
-package entity;
+package logic.entity;
 
 public enum PermissionType {
     ADMIN,

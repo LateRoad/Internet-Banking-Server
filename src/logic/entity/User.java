@@ -1,4 +1,4 @@
-package entity;
+package logic.entity;
 
 public class User {
     private String login;
@@ -8,7 +8,9 @@ public class User {
     private String surname;
     private String lastname;
 
-    public User(){}
+    public User() {
+    }
+
     public User(String login, String password, String permission, String name, String surname, String lastname) {
         this.login = login;
         this.password = password;

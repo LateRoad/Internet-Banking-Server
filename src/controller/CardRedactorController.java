@@ -1,7 +1,5 @@
 package controller;
 
-import dao.BankDAO;
-import entity.Card;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,8 +9,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import model.RedactorModel;
-import switcher.SceneSwitcher;
+import logic.dao.BankDAO;
+import logic.entity.Card;
+import logic.switcher.SceneSwitcher;
+import model.AppModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -22,26 +22,36 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class CardRedactorController implements Initializable{
-    @FXML public TableView<Card> tableViewCard;
-    @FXML public TableColumn<Card, String> idColumn;
-    @FXML public TableColumn<Card, String> numberColumn;
-    @FXML public TableColumn<Card, String> passwordColumn;
-    @FXML public TableColumn<Card, String> secretNumberColumn;
-    @FXML public TableColumn<Card, String> endDateColumn;
-    @FXML public TableColumn<Card, String> moneyColumn;
+public class CardRedactorController implements Initializable {
+    @FXML
+    public TableView<Card> tableViewCard;
+    @FXML
+    public TableColumn<Card, String> idColumn;
+    @FXML
+    public TableColumn<Card, String> numberColumn;
+    @FXML
+    public TableColumn<Card, String> passwordColumn;
+    @FXML
+    public TableColumn<Card, String> secretNumberColumn;
+    @FXML
+    public TableColumn<Card, String> endDateColumn;
+    @FXML
+    public TableColumn<Card, String> moneyColumn;
 
-    @FXML public AnchorPane rootPane;
-    @FXML public TextField cardNumber;
-    @FXML public Button buttonAdd;
+    @FXML
+    public AnchorPane rootPane;
+    @FXML
+    public TextField cardNumber;
+    @FXML
+    public Button buttonAdd;
+    @FXML
+    public Button buttonToUsers;
 
-    @FXML public Button buttonToUsers;
-
-    private RedactorModel model = RedactorModel.getInstance();
+    private AppModel model = AppModel.getInstance();
 
 
     public void showUserTable(ActionEvent actionEvent) {
-        SceneSwitcher.toScene(rootPane, "../view/userRedactor.fxml");
+        SceneSwitcher.toScene(rootPane, "/view/userRedactor.fxml");
     }
 
     public void addCard(ActionEvent actionEvent) {

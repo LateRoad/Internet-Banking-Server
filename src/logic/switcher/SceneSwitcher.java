@@ -1,4 +1,4 @@
-package switcher;
+package logic.switcher;
 
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXMLLoader;
@@ -13,15 +13,18 @@ import java.io.IOException;
 
 public class SceneSwitcher {
 
-    public static void toScene(Pane scenePane, String fxmlPath){
+    public static void toScene(Pane scenePane, String fxmlPath) {
         FadeTransition sceneAnimation = new FadeTransition();
         sceneAnimation.setDuration(Duration.millis(100));
         sceneAnimation.setNode(scenePane);
         sceneAnimation.setFromValue(1);
         sceneAnimation.setToValue(0);
         sceneAnimation.setOnFinished(event -> {
-            try { new SceneSwitcher().loadNextScene(scenePane,fxmlPath);
-            } catch (IOException e) { e.printStackTrace();}
+            try {
+                new SceneSwitcher().loadNextScene(scenePane, fxmlPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         sceneAnimation.play();
     }
@@ -33,7 +36,7 @@ public class SceneSwitcher {
         mainStage.setScene(newScene);
     }
 
-    public static void loadScene(Pane scenePane){
+    public static void loadScene(Pane scenePane) {
         scenePane.setOpacity(0);
         FadeTransition sceneAnimation = new FadeTransition();
         sceneAnimation.setDuration(Duration.millis(600));

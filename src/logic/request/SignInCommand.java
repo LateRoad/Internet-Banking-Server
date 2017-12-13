@@ -1,9 +1,9 @@
-package command;
+package logic.request;
 
 import com.google.gson.Gson;
-import dao.BankDAO;
-import entity.Card;
-import entity.User;
+import logic.dao.BankDAO;
+import logic.entity.Card;
+import logic.entity.User;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

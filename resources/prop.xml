@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="DOWNLOAD_USERS">
+        <![CDATA[
+            SELECT * FROM `bank_mysql`.`user`
+            STRAIGHT_JOIN `bank_mysql`.`user_info` ON `user`.`login` = `user_info`.`login`;
+        ]]>
+    </entry>
+    <entry key="DOWNLOAD_CARDS_BY_LOGIN">
+        <![CDATA[
+            SELECT * FROM `bank_mysql`.`card`
+            WHERE `card`.`login` = ?;
+        ]]>
+    </entry>
+    <entry key="SELECT_CARD">
+        <![CDATA[
+            SELECT * FROM `bank_mysql`.`card`
+            WHERE `card`.`number` = ?;
+        ]]>
+    </entry>
+    <entry key="INSERT_USER">
+        <![CDATA[
+            INSERT INTO `bank_mysql`.`user` values (?, ?, ?);
+        ]]>
+    </entry>
+    <entry key="INSERT_CARD">
+        <![CDATA[
+            INSERT INTO `bank_mysql`.`card` (login, number, password, secret_number, end_date, money)
+            values ( ?, ?, ?, ?, ?, ?);
+        ]]>
+    </entry>
+    <entry key="INSERT_USER_INFO">
+        <![CDATA[
+            INSERT INTO `bank_mysql`.`user_info` values (?, ?, ?, ?);
+        ]]>
+    </entry>
+    <entry key="SELECT_USER_DATA_BY_LOGIN_AND_PASSWORD">
+        <![CDATA[
+            SELECT * FROM `bank_mysql`.`user`
+            STRAIGHT_JOIN `bank_mysql`.`user_info` ON `user`.`login` = `user_info`.`login`
+            WHERE `user`.`login` = ? AND `user`.`password` = ?;
+        ]]>
+    </entry>
+    <entry key="UPDATE_USER">
+        <![CDATA[
+            UPDATE `bank_mysql`.`user` AS u
+            SET u.`login` = ?, u.`password` = ?, u.`permission` = ?
+            WHERE u.`login` = ? AND u.`password` = ?;
+        ]]>
+    </entry>
+    <entry key="UPDATE_USER_INFO">
+        <![CDATA[
+            UPDATE `bank_mysql`.`user` AS u
+            SET u.`login` = ?, u.`password` = ?, u.`permission` = ?
+            WHERE u.`login` = ? AND u.`password` = ?;
+        ]]>
+    </entry>
+    <entry key="UPDATE_CARD">
+        <![CDATA[
+            UPDATE `bank_mysql`.`card` AS c
+            SET c.`money` = ?
+            WHERE c.`number` = ?;
+        ]]>
+    </entry>
+</properties>

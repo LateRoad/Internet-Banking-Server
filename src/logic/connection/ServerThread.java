@@ -1,7 +1,7 @@
-package connection;
+package logic.connection;
 
-import command.CommandManager;
-import security.HashMessage;
+import logic.request.CommandManager;
+import logic.security.HashMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -33,7 +33,7 @@ public class ServerThread extends Thread {
         try {
             serverReader = new ObjectInputStream(client.getInputStream());
             while (isAlive) {
-                if(i == 0){
+                if (i == 0) {
                     message = (String) serverReader.readObject();
                     message = HashMessage.getInstance().decodeWithKey(message.getBytes(StandardCharsets.UTF_8), new Date().toString());
                     System.out.println(message);
@@ -41,8 +41,7 @@ public class ServerThread extends Thread {
                         break;
                     }
                     i++;
-                }
-                else{
+                } else {
                     message = (String) serverReader.readObject();
                     message = HashMessage.getInstance().decode(message.getBytes(StandardCharsets.UTF_8), socketName);
                     System.out.println(message);
@@ -52,11 +51,11 @@ public class ServerThread extends Thread {
                 }
 
                 answer = commandManager.execute(message);
-                if(answer.split("%21")[0].equals("SIGNUP")){
+                if (answer.split("%21")[0].equals("SIGNUP")) {
                     socketName = answer.split("%21")[1].split("\"")[3];
                     HashMessage.setKey(socketName, new Date().toString());
                 }
-                answer = new String (HashMessage.getInstance().encode(answer, socketName), "UTF-8");
+                answer = new String(HashMessage.getInstance().encode(answer, socketName), "UTF-8");
                 serverWriter.writeObject(answer);
                 serverWriter.flush();
             }

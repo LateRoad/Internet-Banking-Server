@@ -1,10 +1,11 @@
-package security;
+package logic.security;
 
 import java.util.HashMap;
 
 public class HashMessage {
     private static final HashMessage instance = new HashMessage();
     private static HashMap<String, String> keyMap = new HashMap<>();
+
     private HashMessage() {
     }
 

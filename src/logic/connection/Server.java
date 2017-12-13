@@ -1,4 +1,4 @@
-package connection;
+package logic.connection;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -28,7 +28,7 @@ public class Server extends Thread {
         try {
             bankServerSocket = new ServerSocket(4244);
 
-            while(serverActive) {
+            while (serverActive) {
                 Socket client = bankServerSocket.accept();
                 ServerThread clientThread = new ServerThread(client);
                 threads.add(clientThread);

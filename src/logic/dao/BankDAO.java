@@ -1,7 +1,7 @@
-package dao;
+package logic.dao;
 
-import entity.Card;
-import entity.User;
+import logic.entity.Card;
+import logic.entity.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,40 +10,24 @@ import java.util.ArrayList;
 
 public class BankDAO {
     private static BankDAOConnection databaseConnection;
+    private static SqlMap sqlMap;
 
-    private static final String DOWNLOAD_USERS = "SELECT * FROM `bank_mysql`.`user` " +
-            "STRAIGHT_JOIN `bank_mysql`.`user_info` ON `user`.`login` = `user_info`.`login`";
-    private static final String DOWNLOAD_CARDS_BY_LOGIN = "SELECT * FROM `bank_mysql`.`card` " +
-            "WHERE `card`.`login` = ?;";
-    private static final String SELECT_CARD = "SELECT * FROM `bank_mysql`.`card` " +
-            "WHERE `card`.`number` = ?;";
-    private static final String INSERT_USER = "INSERT INTO `bank_mysql`.`user` values (?, ?, ?);";
-    private static final String INSERT_CARD = "INSERT INTO `bank_mysql`.`card` (login, number, password, secret_number, end_date, money) values ( ?, ?, ?, ?, ?, ?);";
-    private static final String INSERT_USER_INFO = "INSERT INTO `bank_mysql`.`user_info` values (?, ?, ?, ?);";
-
-    private static final String SELECT_USER_DATA_BY_LOGIN_AND_PASSWORD = "SELECT * FROM `bank_mysql`.`user` " +
-            "STRAIGHT_JOIN `bank_mysql`.`user_info` ON `user`.`login` = `user_info`.`login` " +
-            "WHERE `user`.`login` = ? AND `user`.`password` = ?;";
-
-    private static final String UPDATE_USER = "UPDATE `bank_mysql`.`user` AS u " +
-            "SET u.`login` = ?, u.`password` = ?, u.`permission` = ? " +
-            "WHERE u.`login` = ? AND u.`password` =?";
-    private static final String UPDATE_USER_INFO = "UPDATE `bank_mysql`.`user` AS u " +
-            "SET u.`login` = '?', u.`password` = '?', u.`permission` = '?' " +
-            "WHERE u.`login` = '?' AND u.`password` = '?'";
-    private static final String UPDATE_CARD = "UPDATE `bank_mysql`.`card` AS c " +
-            "SET c.`money` = ? " +
-            "WHERE c.`number` = ?;";
-
-    public BankDAO() throws SQLException {
-        if (databaseConnection == null) {
+    static {
+        try {
             databaseConnection = BankDAOConnection.getInstance();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            sqlMap = new SqlMap();
+            sqlMap.loadXML("resources/prop.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public static Card selectCard(String number) throws SQLException {
-        ArrayList<Card> cards = new ArrayList<>();
-        PreparedStatement downloadUserQuery = BankDAOConnection.getConnection().prepareStatement(SELECT_CARD);
+        PreparedStatement downloadUserQuery = BankDAOConnection.getConnection().prepareStatement(sqlMap.getSql("SELECT_CARD"));
         downloadUserQuery.setString(1, number);
         ResultSet card = downloadUserQuery.executeQuery();
         card.next();
@@ -59,7 +43,7 @@ public class BankDAO {
 
     public static ArrayList<User> downloadUsers() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
-        PreparedStatement downloadUserQuery = BankDAOConnection.getConnection().prepareStatement(DOWNLOAD_USERS);
+        PreparedStatement downloadUserQuery = BankDAOConnection.getConnection().prepareStatement(sqlMap.getSql("DOWNLOAD_USERS"));
         ResultSet user = downloadUserQuery.executeQuery();
         while (user.next()) {
             users.add(new User(
@@ -75,7 +59,7 @@ public class BankDAO {
 
     public static ArrayList<Card> downloadCards(String login) throws SQLException {
         ArrayList<Card> cards = new ArrayList<>();
-        PreparedStatement downloadUserQuery = BankDAOConnection.getConnection().prepareStatement(DOWNLOAD_CARDS_BY_LOGIN);
+        PreparedStatement downloadUserQuery = BankDAOConnection.getConnection().prepareStatement(sqlMap.getSql("DOWNLOAD_CARDS_BY_LOGIN"));
         downloadUserQuery.setString(1, login);
         ResultSet card = downloadUserQuery.executeQuery();
         while (card.next()) {
@@ -92,13 +76,13 @@ public class BankDAO {
     }
 
     public static void insertUser(User newUser) throws SQLException {
-        PreparedStatement insertUserQuery = BankDAOConnection.getConnection().prepareStatement(INSERT_USER);
+        PreparedStatement insertUserQuery = BankDAOConnection.getConnection().prepareStatement(sqlMap.getSql("INSERT_USER"));
         insertUserQuery.setString(1, newUser.getLogin());
         insertUserQuery.setString(2, newUser.getPassword());
         insertUserQuery.setString(3, newUser.getPermissionName());
         insertUserQuery.executeUpdate();
 
-        PreparedStatement insertUserInfoQuery = BankDAOConnection.getConnection().prepareStatement(INSERT_USER_INFO);
+        PreparedStatement insertUserInfoQuery = BankDAOConnection.getConnection().prepareStatement(sqlMap.getSql("INSERT_USER_INFO"));
         insertUserInfoQuery.setString(1, newUser.getLogin());
         insertUserInfoQuery.setString(2, newUser.getName());
         insertUserInfoQuery.setString(3, newUser.getSurname());
@@ -107,7 +91,7 @@ public class BankDAO {
     }
 
     public static void insertCard(Card newCard) throws SQLException {
-        PreparedStatement insertCardQuery = BankDAOConnection.getConnection().prepareStatement(INSERT_CARD);
+        PreparedStatement insertCardQuery = BankDAOConnection.getConnection().prepareStatement(sqlMap.getSql("INSERT_CARD"));
         insertCardQuery.setString(1, newCard.getOwner());
         insertCardQuery.setString(2, newCard.getNumber());
         insertCardQuery.setString(3, newCard.getPassword());
@@ -119,7 +103,7 @@ public class BankDAO {
 
 
     public static User getUserData(String login, String password) throws SQLException {
-        PreparedStatement selectUser = BankDAOConnection.getConnection().prepareStatement(SELECT_USER_DATA_BY_LOGIN_AND_PASSWORD);
+        PreparedStatement selectUser = BankDAOConnection.getConnection().prepareStatement(sqlMap.getSql("SELECT_USER_DATA_BY_LOGIN_AND_PASSWORD"));
         selectUser.setString(1, login);
         selectUser.setString(2, password);
         ResultSet user = selectUser.executeQuery();
@@ -133,8 +117,8 @@ public class BankDAO {
                 user.getString("lastname"));
     }
 
-    public void updateUserData(User userForUpdate, String login, String password) throws SQLException {
-        PreparedStatement updateClient = BankDAOConnection.getConnection().prepareStatement(UPDATE_USER);
+    public static void updateUserData(User userForUpdate, String login, String password) throws SQLException {
+        PreparedStatement updateClient = BankDAOConnection.getConnection().prepareStatement(sqlMap.getSql("UPDATE_USER"));
         updateClient.setString(1, userForUpdate.getLogin());
         updateClient.setString(2, userForUpdate.getPassword());
         updateClient.setString(3, userForUpdate.getPermissionName());
@@ -144,7 +128,7 @@ public class BankDAO {
     }
 
     public static void updateCardData(String cardForUpdate, String money) throws SQLException {
-        PreparedStatement updateClient = BankDAOConnection.getConnection().prepareStatement(UPDATE_CARD);
+        PreparedStatement updateClient = BankDAOConnection.getConnection().prepareStatement(sqlMap.getSql("UPDATE_CARD"));
         updateClient.setString(1, money);
         updateClient.setString(2, cardForUpdate);
         updateClient.executeUpdate();

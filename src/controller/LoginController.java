@@ -1,7 +1,5 @@
 package controller;
 
-import entity.PermissionType;
-import entity.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,13 +9,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import model.LoginModel;
+import logic.entity.PermissionType;
+import logic.entity.User;
+import model.AppModel;
 
 public class LoginController {
 
 
-    LoginModel loginModel = new LoginModel();
-
+    private AppModel model = AppModel.getInstance();
 
     @FXML
     private TextField username;
@@ -30,7 +29,7 @@ public class LoginController {
     @FXML
     public void login(ActionEvent event) {
         try {
-            User currentUser = this.loginModel.getUserData(this.username.getText(), this.password.getText());
+            User currentUser = this.model.getUserData(this.username.getText(), this.password.getText());
             if (currentUser != null && currentUser.getPermission() == PermissionType.ADMIN) {
                 Stage userStage = new Stage();
                 FXMLLoader loader = new FXMLLoader();
