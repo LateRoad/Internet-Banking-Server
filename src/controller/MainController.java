@@ -21,8 +21,6 @@ public class MainController {
     @FXML
     public Button buttonViewUsers;
     @FXML
-    public Text serverStatus;
-    @FXML
     public Text dbStatus;
 
     private Server server = null;
@@ -34,12 +32,12 @@ public class MainController {
         server.start();
         buttonStart.setDisable(true);
         buttonStop.setDisable(false);
-        logs.insertText(0, "Server started.\n");
+        logs.insertText(0, "Сервер запущен.\n");
     }
 
     @FXML
     public void stopServer(ActionEvent actionEvent) {
-        logs.insertText(0, "Server stopped.\n");
+        logs.insertText(0, "Сервер остановлен.\n");
         server.closeThreads();
         server.serverActive = false;
         buttonStart.setDisable(false);

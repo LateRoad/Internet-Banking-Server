@@ -48,7 +48,7 @@ public class UserRedactorController implements Initializable {
         }
 
         final ContextMenu cm = new ContextMenu();
-        MenuItem mi1 = new MenuItem("See user's cards");
+        MenuItem mi1 = new MenuItem("Карты клиента");
         mi1.setOnAction(event -> {
             model.setCurrentUser(tableViewUser.getSelectionModel().getSelectedItem().getLogin());
             SceneSwitcher.toScene(rootPane, "../view/cardRedactor.fxml");

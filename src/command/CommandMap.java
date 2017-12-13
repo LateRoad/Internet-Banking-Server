@@ -3,7 +3,7 @@ package command;
 import java.util.HashMap;
 
 public class CommandMap {
-    HashMap<String, ICommand> commandsMap;
+    private HashMap<String, ICommand> commandsMap;
     private static final CommandMap instance = new CommandMap();
     public static CommandMap getInstance() {
         return instance;

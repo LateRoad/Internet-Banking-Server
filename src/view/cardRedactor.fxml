@@ -7,17 +7,15 @@
       <TableView fx:id="tableViewCard" layoutX="14.0" layoutY="14.0" prefHeight="390.0" prefWidth="676.0">
         <columns>
           <TableColumn fx:id="idColumn" prefWidth="46.0" text="ID" />
-            <TableColumn fx:id="numberColumn" prefWidth="201.0" text="Number" />
-            <TableColumn fx:id="passwordColumn" prefWidth="113.0" text="Password" />
-            <TableColumn fx:id="secretNumberColumn" prefWidth="104.0" text="Secret number" />
-            <TableColumn fx:id="endDateColumn" minWidth="0.0" prefWidth="75.0" text="End Date" />
-            <TableColumn fx:id="moneyColumn" prefWidth="136.0" text="Money" />
+            <TableColumn fx:id="numberColumn" prefWidth="201.0" text="Номер" />
+            <TableColumn fx:id="passwordColumn" prefWidth="113.0" text="Пароль" />
+            <TableColumn fx:id="secretNumberColumn" prefWidth="104.0" text="Секретный номер" />
+            <TableColumn fx:id="endDateColumn" minWidth="0.0" prefWidth="75.0" text="Срок действия" />
+            <TableColumn fx:id="moneyColumn" prefWidth="136.0" text="Деньги" />
         </columns>
       </TableView>
       <Button fx:id="buttonToUsers" layoutX="14.0" layoutY="452.0" mnemonicParsing="false" onAction="#showUserTable" prefHeight="27.0" prefWidth="35.0" text="&lt;" />
-      <TextField fx:id="cardNumber" layoutX="152.0" layoutY="452.0" prefHeight="27.0" prefWidth="127.0" promptText="Card number" />
-      <TextField fx:id="secretNumber" layoutX="287.0" layoutY="452.0" prefHeight="27.0" prefWidth="127.0" promptText="Secret number" />
-      <TextField fx:id="endDate" layoutX="421.0" layoutY="452.0" prefHeight="27.0" prefWidth="127.0" promptText="End Date" />
-      <Button fx:id="buttonAdd" layoutX="563.0" layoutY="452.0" mnemonicParsing="false" onAction="#addCard" prefHeight="27.0" prefWidth="127.0" text="Add Card" />
+      <TextField fx:id="cardNumber" layoutX="428.0" layoutY="452.0" prefHeight="27.0" prefWidth="127.0" promptText="Номер карты" />
+      <Button fx:id="buttonAdd" layoutX="563.0" layoutY="452.0" mnemonicParsing="false" onAction="#addCard" prefHeight="27.0" prefWidth="127.0" text="Добавить" />
    </children>
 </AnchorPane>

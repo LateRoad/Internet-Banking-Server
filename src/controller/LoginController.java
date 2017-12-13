@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -26,8 +25,6 @@ public class LoginController {
     private PasswordField password;
     @FXML
     public Button loginButton;
-    @FXML
-    private Label loginStatus;
 
 
     @FXML
@@ -40,15 +37,12 @@ public class LoginController {
                 Pane root = loader.load(getClass().getResource("../view/main.fxml").openStream());
                 Scene scene = new Scene(root);
                 userStage.setScene(scene);
-                userStage.setTitle("User Dashboard");
+                userStage.setTitle("Таблица клиентов");
                 userStage.setResizable(false);
                 loginButton.getScene().getWindow().hide();
                 userStage.show();
-            } else {
-                this.loginStatus.setText("Wrong Credential");
             }
         } catch (Exception e) {
-            this.loginStatus.setText("Wrong Credential");
             e.printStackTrace();
         }
     }

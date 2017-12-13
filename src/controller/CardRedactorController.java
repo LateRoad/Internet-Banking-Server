@@ -33,8 +33,6 @@ public class CardRedactorController implements Initializable{
 
     @FXML public AnchorPane rootPane;
     @FXML public TextField cardNumber;
-    @FXML public TextField secretNumber;
-    @FXML public TextField endDate;
     @FXML public Button buttonAdd;
 
     @FXML public Button buttonToUsers;
